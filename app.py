@@ -4,10 +4,12 @@ import os
 import json
 from werkzeug.utils import secure_filename
 
+# Initialize Flask app
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
-UPLOAD_FOLDER = "static/uploads"
-QR_FOLDER = "saved_qr_codes"
+# Define folders
+UPLOAD_FOLDER = os.path.join(os.getcwd(), "static/uploads")
+QR_FOLDER = os.path.join(os.getcwd(), "saved_qr_codes")
 DB_FILE = "qr_codes.json"
 
 # Ensure required folders exist
@@ -31,7 +33,7 @@ def save_qr_data(qr_data):
 qr_data = load_qr_data()
 
 @app.route('/')
-def home():  # Renamed 'index' to 'home' to avoid conflicts
+def index():
     return render_template('index.html')
 
 @app.route('/generate_qr', methods=['POST'])
@@ -74,12 +76,22 @@ def generate_qr():
         qr_data[data] = qr_filename
         save_qr_data(qr_data)
 
-    qr_img_path = os.path.join(QR_FOLDER, qr_filename)
-    return send_file(qr_img_path, mimetype='image/png', as_attachment=True, download_name=qr_filename)
+    # Generate a *permanent* URL for the QR code
+    qr_url = url_for('serve_qr', filename=qr_filename, _external=True)
+
+    return jsonify({"qr_url": qr_url, "message": "QR Code generated successfully!"})
 
 @app.route('/get_qr_list')
 def get_qr_list():
     return jsonify(qr_data)
+
+# Route to serve QR codes permanently
+@app.route('/qr_codes/<filename>')
+def serve_qr(filename):
+    qr_path = os.path.join(QR_FOLDER, filename)
+    if os.path.exists(qr_path):
+        return send_file(qr_path, mimetype='image/png')
+    return jsonify({"error": "QR Code not found!"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
