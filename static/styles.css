@@ -2,8 +2,6 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    /* background: linear-gradient(to right, #ff9966, #ff5e62); */
-    /* background: linear-gradient(to right, #f6f4eb, #91c8e4, #749bc2); */
     background: conic-gradient(#f3f8ff, #deecff, #c6cfff);
     display: flex;
     justify-content: center;
@@ -13,11 +11,9 @@ body {
 }
 
 .container {
-    height: 420px;
     width: 60%;
-    /* margin: 5rem 2rem; */
     background: white;
-    padding: 3rem 3rem;
+    padding: 3rem;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -25,14 +21,7 @@ body {
 
 .container h1 {
     color: #0abde3;
-    margin: 5px;
-    /* border-bottom: 2px solid #0abde3;
-    border-top: 2px solid #0abde3; */
-    
-}
-
-.container form{
-    margin: 2rem 1rem;
+    margin-bottom: 20px;
 }
 
 input {
@@ -44,15 +33,14 @@ input {
     transition: 0.3s;
 }
 
-input:hover{
+input:hover {
     border: 2px solid #54a0ff;
 }
 
 button {
-    /* background-color: #ff5e62; */
     background-color: #0abde3;
     color: white;
-    padding: 15px 20px;
+    padding: 12px 18px;
     font-size: 1rem;
     font-weight: bold;
     border: none;
@@ -65,21 +53,26 @@ button:hover {
     background-color: #54a0ff;
 }
 
-
-@media screen and (max-width:600px) {
-    .container{
-        height: 500px;
-        font-size:1rem;
-    }
+.hidden {
+    display: none;
 }
 
-@media screen and (max-width:500px) {
-    .container{
-        height: 450px;
-        font-size:14px;
-    }
+#qrResult {
+    margin-top: 20px;
+    animation: fadeIn 1s ease-in-out;
 }
 
+img {
+    width: 200px;
+    height: 200px;
+    border: 3px solid #0abde3;
+    border-radius: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
 @media screen and (max-width:350px) {
     .container{
         height: 500px;
